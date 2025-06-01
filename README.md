@@ -1,1 +1,1 @@
-A Github blog projetct.
+A Github blog project.
