@@ -9,7 +9,6 @@ import {
   Header,
   GitHubBlogLink,
   ProfileSection,
-  ProfileImage,
   ProfileInfo,
   Name,
   Description,
@@ -59,7 +58,7 @@ export const App: React.FC = () => {
               <Description>Tristique volutpat pulvinar vel massa. Pellentesque egestas. Eu viverra massa quis dignissim. Aenean malesuada suscipit. Nunc vel volutpat pulvinar vel massa.</Description>
               <ProfileLinks>
                 <Link to="#">
-                  <AiFillGithub size={16} /> cameronwilli
+                  <AiFillGithub size={16} /> usuário
                 </Link>
                 <Link to="#">
                   <BsBookmarkFill size={16} /> Pocketcast
