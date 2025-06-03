@@ -23,12 +23,9 @@ import {
   ArticleCard,
   ArticleTitle,
   ArticleDescription,
-  ArticleInfo,
-  StyledImage,
-  // StyledImage // Não é mais necessário se você usar ProfileImageOne
+  ArticleInfo
 } from './styles/styled-components';
 
-// Importa o componente PublicationDetail (com letra maiúscula)
 import PublicationDetail from './components/publicationDetail';
 import ProfileImageOne from './components/profileImageOne';
 
@@ -50,11 +47,10 @@ export const App: React.FC = () => {
             GITHUB BLOG
           </GitHubBlogLink>
           <ProfileSection>
-            {/* Agora usando o componente ProfileImageOne */}
-        <StyledImage
-  src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
-   alt="Usuário"
-/>
+            <ProfileImageOne
+              src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+              alt="Foto de perfil do usuário"
+            />
             <ProfileInfo>
               <Name>Usuário</Name>
               <Description>
@@ -75,12 +71,6 @@ export const App: React.FC = () => {
             </ProfileInfo>
           </ProfileSection>
         </Header>
-        {/*
-          Aqui definimos as rotas da sua aplicação.
-          A rota "/" renderiza a HomePage.
-          A rota "/publication/:id" renderiza o componente PublicationDetail,
-          que agora será responsável por buscar e exibir os detalhes.
-        */}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/publication/:id" element={<PublicationDetail />} />
@@ -118,7 +108,6 @@ const PublicationList: React.FC<{ publications: Publication[] }> = ({ publicatio
   return (
     <Grid>
       {publications.map((publication) => (
-        // Envolve o ArticleCard inteiro no Link para que toda a área seja clicável
         <Link to={`/publication/${publication.id}`} key={publication.id} style={{ textDecoration: 'none', color: 'inherit' }}>
           <ArticleCard>
             <ArticleTitle>{publication.title}</ArticleTitle>

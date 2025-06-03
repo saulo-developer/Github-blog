@@ -206,5 +206,3 @@ export const StyledImage = styled.img`
 
 
 
-
-

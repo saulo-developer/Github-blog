@@ -1,13 +1,12 @@
 import React from 'react';
-import { StyledImage } from '../styles/styled-components'; // Ajuste o caminho para o seu arquivo de estilos
+import { StyledImage } from '../styles/styled-components'; // Adjust path if necessary
 
-function profileImageOne(props) {
+function ProfileImageOne(props) {
   return (
     <a href={props.link}>
-   
-      <StyledImage src={props.img} alt={props.alt} />
+      <StyledImage src={props.src} alt={props.alt} /> {/* CORRECTED: Now using props.src */}
     </a>
   );
 }
 
-export default profileImageOne;
+export default ProfileImageOne;
