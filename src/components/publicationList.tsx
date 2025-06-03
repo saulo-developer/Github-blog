@@ -20,14 +20,21 @@ const PublicationList: React.FC<{ publications: Publication[] }> = ({ publicatio
   return (
     <Grid>
       {publications.map((publication) => (
-        <ArticleCard key={publication.id}>
-          <ArticleTitle>{publication.title}</ArticleTitle>
-          <ArticleDescription>
-            <Link to={`/publication/${publication.id}`}>{publication.description}</Link>
-          </ArticleDescription>
-          <ArticleInfo>{publication.date}</ArticleInfo>
-        </ArticleCard>
+        // Envolva o ArticleCard inteiro no Link
+        // Adicione style={{ textDecoration: 'none', color: 'inherit' }}
+        // para remover o sublinhado padrão do link e herdar a cor do texto
+        <Link to={`/publication/${publication.id}`} key={publication.id} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <ArticleCard>
+            <ArticleTitle>{publication.title}</ArticleTitle>
+            <ArticleDescription>
+              {publication.description}
+            </ArticleDescription>
+            <ArticleInfo>{publication.date}</ArticleInfo>
+          </ArticleCard>
+        </Link>
       ))}
     </Grid>
   );
 };
+
+export default PublicationList; // Boa prática exportar como default, se for o único export do arquivo
