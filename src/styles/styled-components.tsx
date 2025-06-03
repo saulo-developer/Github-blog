@@ -192,3 +192,19 @@ export const ArticleInfo = styled.span`
   font-size: 0.9rem;
   color: #718096;
 `;
+
+
+// design settings
+export const StyledImage = styled.img`
+  border-radius: 150000000px;
+
+`;
+
+
+
+
+
+
+
+
+
