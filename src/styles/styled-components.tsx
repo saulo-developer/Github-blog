@@ -6,13 +6,17 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f5f7;
+ background-color:  #007bff;
     color: #333;
+      transform: scale(0.8);
+      height: 100vh;
+      overflow: hidden
   }
 `;
 
 export const Container = styled.div`
-  max-width: 960px;
+  max-width: 1060px;
+  height: 900px;
   margin: 40px auto;
   padding: 30px;
   background-color: #fff;
@@ -119,6 +123,7 @@ export const PublicationsHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  
 `;
 
 export const PublicationsTitle = styled.h2`
@@ -133,7 +138,7 @@ export const PublicationsCount = styled.span`
 `;
 
 export const SearchInput = styled.input`
-  width: 100%;
+  width: 97%;
   padding: 12px 16px;
   margin-bottom: 25px;
   border: 1px solid #e0e0e0;
