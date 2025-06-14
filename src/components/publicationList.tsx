@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Importe o Link aqui
+import { Publication } from '../types/index'; 
 import {
   Grid,
   ArticleCard,
@@ -7,14 +8,6 @@ import {
   ArticleDescription,
   ArticleInfo,
 } from '../styles/styled-components'; // Assumindo que estes componentes estilizados estão neste arquivo
-
-interface Publication {
-  id: number;
-  title: string;
-  description: string;
-  date: string;
-   body: string;
-}
 
 
 const PublicationList: React.FC<{ publications: Publication[] }> = ({ publications }) => {
@@ -25,7 +18,7 @@ const PublicationList: React.FC<{ publications: Publication[] }> = ({ publicatio
           <ArticleCard>
             <ArticleTitle>{publication.title}</ArticleTitle>
             <ArticleDescription>
-           
+              {/* CORRIGIDO: Inicia em 0 e usa || '' para segurança */}
               {(publication.body || '').substring(0, 150)}...
             </ArticleDescription>
             <ArticleInfo>{publication.date || 'Data Indisponível'}</ArticleInfo>

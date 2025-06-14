@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import axios from 'axios';
+
+// Importa a interface Publication do seu novo arquivo central de tipos
+import { Publication } from '../types/index'; // <-- O caminho DEVE refletir onde você salvou src/types/index.ts
 
 import {
   PublicationsSection,
@@ -8,26 +11,18 @@ import {
   PublicationsTitle,
   PublicationsCount,
   SearchInput,
-  Grid,
+ /* Grid,
   ArticleCard,
   ArticleTitle,
   ArticleDescription,
-  ArticleInfo
-} from './styles/styled-components';
+  ArticleInfo */
+} from '../styles/styled-components';
 import PublicationList from './publicationList';
 
-// Interface para definir a estrutura de uma publicação
-// Garante que todas as propriedades necessárias do JSONPlaceholder estejam aqui
-interface Publication {
-  userId: number; // Propriedade vinda do JSONPlaceholder
-  id: number;
-  title: string;
-  body: string; // CRUCIAL: JSONPlaceholder usa 'body' para o conteúdo principal
-  date?: string; // Propriedade que você adiciona para exibição
-}
+// A definição da interface Publication NÃO ESTÁ mais aqui. Ela está em src/types/index.ts.
 
 const HomePage: React.FC = () => {
-  // Tipagem explícita para os estados
+  // Tipagem explícita para os estados usando a interface importada
   const [allPublications, setAllPublications] = useState<Publication[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -40,18 +35,17 @@ const HomePage: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        // axios.get<Publication[]> informa ao TypeScript o tipo esperado da resposta
+        // axios.get<Publication[]> informa ao TypeScript o tipo esperado da resposta da API
         const response = await axios.get<Publication[]>('https://jsonplaceholder.typicode.com/posts');
         
-        // Mapeia os dados brutos da API para a sua interface Publication
-        const formattedData: Publication[] = response.data.map(post => ({
-          id: post.id,
-          userId: post.userId, // Garante que userId seja mapeado
-          title: post.title,
-          body: post.body, // Garante que 'body' seja mapeado corretamente
-          date: new Date().toLocaleDateString('pt-BR') // Data adicionada para cada item
-        }));
-
+        // Mapeia os dados brutos da API para a sua interface Publication centralizada
+      const formattedData: Publication[] = response.data.map(post => ({
+  id: post.id,
+  userId: post.userId,
+  title: post.title,
+  body: post.body, // <-- Garanta que 'body' é o que está sendo usado aqui
+  date: new Date().toLocaleDateString('pt-BR')
+}));
         setAllPublications(formattedData);
         setFilteredPublications(formattedData); // Inicialmente, a lista filtrada é toda a lista
       } catch (err) {
@@ -124,12 +118,11 @@ const HomePage: React.FC = () => {
       {filteredPublications.length === 0 && searchTerm === '' && (
         <p>Não há publicações disponíveis no momento.</p>
       )}
-      {filteredPublications.length > 0 && (
-        <PublicationList publications={filteredPublications} /> {/* Agora tipado corretamente */}
-      )}
+    {filteredPublications.length > 0 && ( // O parêntese aberto aqui
+  <PublicationList publications={filteredPublications} />
+)} {/* <--- Precisa ser fechado aqui (corrigido) */}
     </PublicationsSection>
   );
 };
 
 export default HomePage;
-

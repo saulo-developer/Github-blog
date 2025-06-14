@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+
+// Importa a interface PublicationDetails do seu novo arquivo central de tipos
+import { PublicationDetails } from '../types'; // <-- O caminho DEVE refletir onde você salvou src/types/index.ts
 import { PublicationsSection } from '../styles/styled-components';
 
-interface PublicationDetails {
-  id: number;
-  title: string;
-  body: string; // JSONPlaceholder usa 'body'
-  userId?: number;
-  date?: string;
-}
+// A definição da interface PublicationDetails NÃO ESTÁ mais aqui. Ela está em src/types/index.ts.
 
 const PublicationDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [publication, setPublication] = useState<PublicationDetails | null>(null);
-  const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -26,12 +23,14 @@ const PublicationDetail: React.FC = () => {
         const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`);
         const data = response.data;
 
-        const formattedData: PublicationDetails = {
-          id: data.id,
-          title: data.title,
-          body: data.body,
-          date: new Date().toLocaleDateString('pt-BR')
-        };
+        // Mapeia os dados da API para a interface PublicationDetails centralizada
+      const formattedData: PublicationDetails = {
+        id: data.id,
+        title: data.title,
+        body: data.body, // <-- Garanta que 'body' é o que está sendo usado aqui
+        date: new Date().toLocaleDateString('pt-BR'),
+        userId: 0
+      };
 
         setPublication(formattedData);
       } catch (err) {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Publication } from '../types/index'; 
 
 // Supondo que você tenha estes componentes estilizados
 import {
@@ -12,12 +13,6 @@ import {
   PublicationsSection, // Para envolver o componente
 } from '../styles/styled-components';
 
-interface Publication {
-  id: number;
-  title: string;
-  body: string; // JSONPlaceholder usa 'body' em vez de 'description'
-  userId: number; // Exemplo de outra propriedade que viria da API
-}
 
 const PublicationSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');

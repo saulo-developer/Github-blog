@@ -8,7 +8,7 @@ import {
   GlobalStyle,
   Container,
   Header,
-  GlobalGitHubBlogLink, // <-- Importação do componente com o nome CORRETO
+  GlobalGitHubBlogLink, // <-- Importação do componente com o nome CORRETO (GlobalGitHubBlogLink)
   ProfileSection,
   ProfileInfo,
   Name,
@@ -16,8 +16,8 @@ import {
   ProfileLinks,
 } from './styles/styled-components';
 
-import HomePage from './HomePage';
-import PublicationDetail from './PublicationDetail';
+import HomePage from './components/HomePage';
+import PublicationDetail from './components/publicationDetail';
 import ProfileImageOne from './components/profileImageOne'; // <-- Seu componente de imagem de perfil
 
 export const App: React.FC = () => {
@@ -27,7 +27,7 @@ export const App: React.FC = () => {
       <Container>
         <Header>
           {/* Uso do componente com o nome CORRETO */}
-          <GlobalGitHubBlogLink to="/">
+          <GlobalGitHubBlogLink to="/"> {/* */}
             <AiFillGithub size={20} />
             GITHUB BLOG
           </GlobalGitHubBlogLink>
