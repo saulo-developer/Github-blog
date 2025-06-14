@@ -13,23 +13,22 @@ interface Publication {
   title: string;
   description: string;
   date: string;
+   body: string;
 }
 
-// Componente para exibir a lista de publicações
+
 const PublicationList: React.FC<{ publications: Publication[] }> = ({ publications }) => {
   return (
     <Grid>
       {publications.map((publication) => (
-        // Envolva o ArticleCard inteiro no Link
-        // Adicione style={{ textDecoration: 'none', color: 'inherit' }}
-        // para remover o sublinhado padrão do link e herdar a cor do texto
         <Link to={`/publication/${publication.id}`} key={publication.id} style={{ textDecoration: 'none', color: 'inherit' }}>
           <ArticleCard>
             <ArticleTitle>{publication.title}</ArticleTitle>
             <ArticleDescription>
-              {publication.description}
+           
+              {(publication.body || '').substring(0, 150)}...
             </ArticleDescription>
-            <ArticleInfo>{publication.date}</ArticleInfo>
+            <ArticleInfo>{publication.date || 'Data Indisponível'}</ArticleInfo>
           </ArticleCard>
         </Link>
       ))}
@@ -37,4 +36,5 @@ const PublicationList: React.FC<{ publications: Publication[] }> = ({ publicatio
   );
 };
 
-export default PublicationList; // Boa prática exportar como default, se for o único export do arquivo
+
+export default PublicationList;

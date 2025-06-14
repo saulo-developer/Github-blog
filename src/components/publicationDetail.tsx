@@ -1,46 +1,89 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-
-
-// Importe suas styled-components específicas para detalhes de publicação, se houver
+import axios from 'axios';
 import { PublicationsSection } from '../styles/styled-components';
-
 
 interface PublicationDetails {
   id: number;
   title: string;
-  content: string;
-  moreInfo?: string; // Propriedade opcional
+  body: string; // JSONPlaceholder usa 'body'
+  userId?: number;
+  date?: string;
 }
 
 const PublicationDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>(); // Pega o ID da URL
+  const { id } = useParams<{ id: string }>();
   const [publication, setPublication] = useState<PublicationDetails | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Simulação de busca de dados (em uma aplicação real, seria uma chamada de API)
   useEffect(() => {
-    setLoading(true);
-    // Dados de exemplo para simular uma API
-    const mockPublicationDetails: { [key: number]: PublicationDetails } = {
-      1: { id: 1, title: 'Aprofundando no Artigo 1: Introdução ao React Hooks', content: 'Este é o conteúdo detalhado do primeiro artigo, explorando o uso de useState e useEffect em componentes funcionais.', moreInfo: 'Hooks são uma adição poderosa ao React 16.8.' },
-      2: { id: 2, title: 'Outro Artigo Interessante: Gerenciamento de Estado com Context API', content: 'Aqui abordamos como a Context API pode ser utilizada para gerenciar o estado global da sua aplicação sem a necessidade de bibliotecas externas.', moreInfo: 'Ideal para dados que precisam ser acessados por muitos componentes.' },
-      3: { id: 3, title: 'Um Terceiro Artigo: Otimizando Performance em Aplicações React', content: 'Explore técnicas como memoização, virtualização de listas e lazy loading para melhorar a performance de suas aplicações React.', moreInfo: 'Componentes puros e React.memo são seus amigos.' },
+    const fetchPublicationDetails = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`);
+        const data = response.data;
+
+        const formattedData: PublicationDetails = {
+          id: data.id,
+          title: data.title,
+          body: data.body,
+          date: new Date().toLocaleDateString('pt-BR')
+        };
+
+        setPublication(formattedData);
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          if (err.response) {
+            console.error("Erro de resposta da API:", err.response.data);
+            if (err.response.status === 404) {
+              setError("Publicação não encontrada.");
+            } else {
+              setError(`Erro ao carregar publicação: ${err.response.status} - ${err.response.statusText}`);
+            }
+          } else if (err.request) {
+            console.error("Nenhuma resposta recebida:", err.request);
+            setError("Nenhuma resposta do servidor. Verifique sua conexão.");
+          } else {
+            console.error("Erro na configuração da requisição:", err.message);
+            setError("Ocorreu um erro inesperado ao fazer a requisição.");
+          }
+        } else {
+          console.error("Erro inesperado:", err);
+          setError("Ocorreu um erro desconhecido.");
+        }
+        setPublication(null);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    // Simula um atraso de rede para a busca de dados
-    setTimeout(() => {
-      const publicationId = parseInt(id || '', 10); // Converte o ID da URL para número
-      const foundPublication = mockPublicationDetails[publicationId];
-      setPublication(foundPublication || null); // Define a publicação encontrada ou null
-      setLoading(false); // Finaliza o estado de carregamento
-    }, 500); // Atraso de 0.5 segundo para simular requisição
-  }, [id]); // O efeito é re-executado se o 'id' na URL mudar
+    if (id) {
+      fetchPublicationDetails();
+    } else {
+      setLoading(false);
+      setPublication(null);
+      setError("ID da publicação não fornecido na URL.");
+    }
+  }, [id]);
 
   if (loading) {
     return (
       <PublicationsSection>
         <h2>Carregando detalhes da publicação...</h2>
+        <p>Aguarde um momento.</p>
+      </PublicationsSection>
+    );
+  }
+
+  if (error) {
+    return (
+      <PublicationsSection>
+        <h2>Ocorreu um erro!</h2>
+        <p>{error}</p>
+        <Link to="/">Voltar para a lista de publicações</Link>
       </PublicationsSection>
     );
   }
@@ -58,11 +101,11 @@ const PublicationDetail: React.FC = () => {
   return (
     <PublicationsSection>
       <h3>{publication.title}</h3>
-      <p>{publication.content}</p>
-      {publication.moreInfo && <p>Mais informações: {publication.moreInfo}</p>}
+      <p>{publication.body}</p>
+      {publication.date && <p>Publicado em: {publication.date}</p>}
       <Link to="/">Voltar para a lista de publicações</Link>
     </PublicationsSection>
   );
 };
 
-export default PublicationDetail; // Exporta o componente como default
+export default PublicationDetail;

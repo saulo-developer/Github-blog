@@ -8,33 +8,17 @@ import {
   GlobalStyle,
   Container,
   Header,
-  GitHubBlogLink,
+  GlobalGitHubBlogLink, // <-- Importação do componente com o nome CORRETO
   ProfileSection,
   ProfileInfo,
   Name,
   Description,
   ProfileLinks,
-  PublicationsSection,
-  PublicationsHeader,
-  PublicationsTitle,
-  PublicationsCount,
-  SearchInput,
-  Grid,
-  ArticleCard,
-  ArticleTitle,
-  ArticleDescription,
-  ArticleInfo
 } from './styles/styled-components';
 
-import PublicationDetail from './components/publicationDetail';
-import ProfileImageOne from './components/profileImageOne';
-
-interface Publication {
-  id: number;
-  title: string;
-  description: string;
-  date: string;
-}
+import HomePage from './HomePage';
+import PublicationDetail from './PublicationDetail';
+import ProfileImageOne from './components/profileImageOne'; // <-- Seu componente de imagem de perfil
 
 export const App: React.FC = () => {
   return (
@@ -42,13 +26,14 @@ export const App: React.FC = () => {
       <GlobalStyle />
       <Container>
         <Header>
-          <GitHubBlogLink to="/">
+          {/* Uso do componente com o nome CORRETO */}
+          <GlobalGitHubBlogLink to="/">
             <AiFillGithub size={20} />
             GITHUB BLOG
-          </GitHubBlogLink>
+          </GlobalGitHubBlogLink>
           <ProfileSection>
             <ProfileImageOne
-              src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+              src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" // Imagem de perfil placeholder
               alt="Foto de perfil do usuário"
             />
             <ProfileInfo>
@@ -71,55 +56,12 @@ export const App: React.FC = () => {
             </ProfileInfo>
           </ProfileSection>
         </Header>
+
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/publication/:id" element={<PublicationDetail />} />
-          {/* Opcional: Adicionar uma rota para lidar com páginas não encontradas (404) */}
-          {/* <Route path="*" element={<NotFoundPage />} /> */}
         </Routes>
       </Container>
     </>
   );
 };
-
-// Componente HomePage: Exibe a lista de publicações
-const HomePage: React.FC = () => {
-  // Dados de publicações (simulados)
-  const publications: Publication[] = [
-    { id: 1, title: 'Título do Artigo 1', description: 'Descrição do artigo 1.', date: '01/06/2025' },
-    { id: 2, title: 'Outro Artigo Interessante', description: 'Mais detalhes sobre o segundo artigo.', date: '15/05/2025' },
-    { id: 3, title: 'Um Terceiro Artigo Aqui', description: 'Conteúdo breve do terceiro artigo.', date: '20/05/2025' },
-  ];
-
-  return (
-    <PublicationsSection>
-      <PublicationsHeader>
-        <PublicationsTitle>Publicações</PublicationsTitle>
-        <PublicationsCount>{publications.length} publicações</PublicationsCount>
-      </PublicationsHeader>
-      <SearchInput type="text" placeholder="Buscar conteúdo" />
-      <PublicationList publications={publications} />
-    </PublicationsSection>
-  );
-};
-
-// Componente PublicationList: Renderiza a grade de artigos
-const PublicationList: React.FC<{ publications: Publication[] }> = ({ publications }) => {
-  return (
-    <Grid>
-      {publications.map((publication) => (
-        <Link to={`/publication/${publication.id}`} key={publication.id} style={{ textDecoration: 'none', color: 'inherit' }}>
-          <ArticleCard>
-            <ArticleTitle>{publication.title}</ArticleTitle>
-            <ArticleDescription>
-              {publication.description}
-            </ArticleDescription>
-            <ArticleInfo>{publication.date}</ArticleInfo>
-          </ArticleCard>
-        </Link>
-      ))}
-    </Grid>
-  );
-};
-
-
