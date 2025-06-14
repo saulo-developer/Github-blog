@@ -299,6 +299,7 @@ export const StyledImage = styled.img`
   // Add your CSS properties here for the image
   width: 100%;
   height: auto;
+  border-radius: 40px;
   max-width: 600px; /* Example style */
   display: block; /* Example style */
   margin: 0 auto; /* Example style to center it */
