@@ -294,3 +294,12 @@ export const ArticleInfo = styled.span`
   color: var(--color-text-light);
   margin-top: auto;
 `;
+
+export const StyledImage = styled.img`
+  // Add your CSS properties here for the image
+  width: 100%;
+  height: auto;
+  max-width: 600px; /* Example style */
+  display: block; /* Example style */
+  margin: 0 auto; /* Example style to center it */
+`;
